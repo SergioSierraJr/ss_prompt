@@ -14,5 +14,5 @@ Now all you have to do is execute the executable in your shells prompt function.
 PROMPT_COMMAND='PS1="$(/path/to/ss_prompt)"'
 ```
 Keep in mind this example works for bash but is unlikely to work for other shells. Please refer to your shell of choice's documentation.
-# credtis
+# credits
 Credits to the termion, homedir, and rust team for making this project possible.
