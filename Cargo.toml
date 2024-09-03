@@ -1,0 +1,8 @@
+[package]
+name = "ss_prompt"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+homedir = "0.3.3"
+termcolor = "1.4.1"
