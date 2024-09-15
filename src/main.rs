@@ -10,8 +10,8 @@ fn main() {
     };
 
     // this code probably isnt in very good practice but its shorter 
-    let pwd = &env::current_dir().unwrap().to_str().unwrap().to_owned();
-    let home = &homedir::my_home().unwrap().unwrap().to_str().unwrap().to_owned();
+    let pwd = &format!("{}",env::current_dir().unwrap().display());
+    let home = &format!("{}",homedir::my_home().unwrap().unwrap().display());
     
     write_color("[", Color::Red);
     if pwd.starts_with(home) {
