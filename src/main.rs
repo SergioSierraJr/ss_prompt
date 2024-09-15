@@ -2,23 +2,17 @@ use std::{env, io::Write};
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 fn main() {
-    let binding = env::current_dir().expect("Couldnt get PWD");
-    let pwd = match binding.to_str() {
-        Some(x) => x,
-        None => return,
+    // decided to make write_color a closure so I dont have to keep recomputing stdout or keep passing it as a value
+    let mut stdout = StandardStream::stdout(ColorChoice::Always);
+    let mut write_color = |text: &str, color: Color| {
+        stdout.set_color(ColorSpec::new().set_fg(Some(color))).expect("Couldnt print red");
+        write!(stdout, "{}", text).expect("Couldnt print text");
     };
 
-    let binding = homedir::my_home().expect("Couldnt get homedir");
-    let home = match binding {
-        Some(x) => x,
-        None => return,
-    };
-
-    let home = match home.to_str() {
-        Some(x) => x,
-        None => return,
-    };
-
+    // this code probably isnt in very good practice but its shorter 
+    let pwd = &env::current_dir().unwrap().to_str().unwrap().to_owned();
+    let home = &homedir::my_home().unwrap().unwrap().to_str().unwrap().to_owned();
+    
     write_color("[", Color::Red);
     if pwd.starts_with(home) {
         write_color(&pwd.replace(home, "~"), Color::Magenta);
@@ -27,10 +21,4 @@ fn main() {
     }
     write_color("]", Color::Red);
     write_color(" ⮞ ", Color::White);
-}
-
-fn write_color(text: &str, color: Color) {
-    let mut stdout = StandardStream::stdout(ColorChoice::Always);
-    stdout.set_color(ColorSpec::new().set_fg(Some(color))).expect("Couldnt print red");
-    write!(&mut stdout, "{}", text).expect("Couldnt print text");
 }
